@@ -95,7 +95,7 @@ class AbstractOAuth2Client(object):
         client_id = settings[self.settings_prefix + 'client_id']
         client_secret = settings[self.settings_prefix + 'client_secret']
 
-        redirect_uri = urljoin(request.application_url, '@@oauth2callback')
+        redirect_uri = urljoin(request.application_url, self.callback_path)
         verify = token_url.startswith('https')
         r = requests.post(token_url, auth=(client_id, client_secret), data={
             'grant_type': 'authorization_code',
