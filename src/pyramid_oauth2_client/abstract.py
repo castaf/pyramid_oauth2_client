@@ -76,12 +76,13 @@ class AbstractOAuth2Client(object):
 
         userid = self.get_userid()
         if userid:
-            remember(request, userid)
+            headers = remember(request, userid)
+        else:
+            headers = [('Cache-Control', 'no-cache')]
 
         location = session.get(self.session_prefix + 'came_from')
         if not location:
             location = request.application_url
-        headers = [('Cache-Control', 'no-cache')]
         return HTTPFound(location=location, headers=headers)
 
     def prepare_access_token(self, code):
