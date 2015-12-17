@@ -41,12 +41,14 @@ class AbstractOAuth2Client(object):
         settings = request.registry.settings
         authorize_url = settings[self.settings_prefix + 'authorize_url']
         client_id = settings[self.settings_prefix + 'client_id']
+        resource = settings[self.settings_prefix + 'resource']
         redirect_uri = urljoin(request.application_url, self.callback_path)
         state = urlsafe_b64encode(os.urandom(16))
         request.session[self.session_prefix + 'state'] = state
 
         q = urlencode([
             ('client_id', client_id),
+            ('resource', resource),
             ('redirect_uri', redirect_uri),
             ('state', state),
             ('response_type', 'code'),
